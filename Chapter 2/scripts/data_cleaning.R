@@ -1,13 +1,14 @@
 
-rm(list=ls())
-
 # Load libraries
 library(readxl)
 library(network)
 library(stringi)
 
-# Set working directory
-setwd("~/OneDrive - The Pennsylvania State University/Dissertation/(2) Networks/data")
+# Paths (run from ./scripts by default)
+args <- commandArgs(trailingOnly = TRUE)
+root <- ifelse(length(args) == 0, file.path(".."), args)
+dat_dir <- file.path(root, "data")
+dir.create(dat_dir, recursive = TRUE, showWarnings = FALSE)
 
 # Load in ECAV dataset
 ecav <- read_excel("ecav.xls")
