@@ -7,9 +7,6 @@
 ##
 ## -----------------------------------------------------------------------------
 
-rm(list=ls())
-setwd("~/OneDrive - The Pennsylvania State University/Dissertation/(2) Networks/scripts")
-
 ## libraries
 libs <- c("haven", "readxl", "dplyr", "tidyverse", "ggplot2",
           "network", "sna", "intergraph", "igraph", "ggraph", 
@@ -22,8 +19,9 @@ sapply(libs, require, character.only = TRUE)
 args <- commandArgs(trailingOnly = TRUE)
 root <- ifelse(length(args) == 0, file.path(".."), args)
 dat_dir <- file.path(root, "data")
-#fig_dir <- file.path(root, "figures")
-fig_path <- "~/Dropbox/Apps/Overleaf/Dalton EV Networks (CH. 2)/Figures"
+dir.create(dat_dir, recursive = TRUE, showWarnings = FALSE)
+fig_path <- file.path(root, "figures")
+dir.create(fig_path, recursive = TRUE, showWarnings = FALSE)
 
 # Load in ECAV dataset
 ecav <- read_csv(file.path(dat_dir, "ecav_main.csv"))
@@ -714,20 +712,3 @@ ggraph(ecavG_tbl, layout = "manual", x = x, y = y) +
   )
 dev.off()
 
-
-
-### Visualize GOF --------------------------------------------------
-par(mfrow=c(2,2))
-plot(gof(est2dc,GOF=~idegree+odegree+distance+esp))
-
-### Confusion Matrix --------------------------------------------------
-y_star <- predict(est2dc, type="pmean")
-y <- as.matrix(summary(est2dc)$model$Yg)
-cm <- table(prediction = y_star[lower.tri(y_star)] > 0.5,
-            truth = y[lower.tri(y)] == 1)
-print(cm)
-
-### Comparing Model 1 and 2
-est.bic <- sapply(list(est2d, est2dc), bic.ergmm)
-colnames(est.bic) <- paste("Model", 1:2)
-est.bic
