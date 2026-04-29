@@ -109,9 +109,8 @@ ecav.s <- ecav.s %>% # Cleaning duplicate labels
                           .default = as.character(Target1Name)
   ))
 
-unique(ecav.s$Actor1Name)
+write.csv(ecav.s, file.path(dat_dir, "ecav_net.csv"), row.names = FALSE)
 
-write.csv(ecav.s, "ecav_net.csv")
 
 
 
