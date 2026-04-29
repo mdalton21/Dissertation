@@ -12,14 +12,15 @@ libs <- c("haven", "readxl", "dplyr", "tidyverse", "ggplot2", "stargazer",
           "vtable", "lfe", "sjPlot", "sjmisc", "broom", "rdd", "rdrobust")
 sapply(libs, require, character.only = TRUE)
 
-## paths
 ## paths (./scripts as working directory)
 args <- commandArgs(trailingOnly = TRUE)
 root <- ifelse(length(args) == 0, file.path(".."), args)
 dat_dir <- file.path(root, "data")
-fig_dir <- file.path(root, "figures")
-fig_path <- "~/Dropbox/Apps/Overleaf/Dalton EV Quotas (CH. 3)/Figures"
-tab_path <- "~/Dropbox/Apps/Overleaf/Dalton EV Quotas (CH. 3)/Tables"
+dir.create(dat_dir, recursive = TRUE, showWarnings = FALSE)
+fig_path <- file.path(root, "figures")
+tab_path <- file.path(root, "tables")
+dir.create(fig_path, recursive = TRUE, showWarnings = FALSE)
+dir.create(tab_path, recursive = TRUE, showWarnings = FALSE)
 
 ## read in datasets for analysis
 df_acled <- read_csv(file.path(dat_dir, "df_acled.csv"))
@@ -82,7 +83,7 @@ stargazer(alt.m1, alt.m2, alt.m3, header = FALSE, font.size = "footnotesize", no
                                "log(GDPPC)", "log(Population)",
                                "Electoral Violence (t-1)",
                                "Quota*Secondary School", "Quota*WBL Index", "Quota*Fertility"), 
-          out="~/Dropbox/Apps/Overleaf/Dalton EV Quotas (CH. 3)/Tables/alt_models.tex")
+          out=file.path(tab_path, "alt_models.tex"))
 
 ## -----------------------------------------------------------------------------
 ## Supplementary Analysis - Types of Quota (non-binary, placement, and threshold)
