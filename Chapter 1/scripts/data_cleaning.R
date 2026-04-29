@@ -7,9 +7,6 @@
 ##
 ## -----------------------------------------------------------------------------
 
-rm(list=ls())
-setwd("~/OneDrive - The Pennsylvania State University/Dissertation/(1) EV Strategies/scripts")
-
 ## libraries
 libs <- c("haven", "readxl", "dplyr", "tidyverse", "ggplot2",
           "lfe", "tools", "forcats", "fixest", "vtable", "lme4", "ggeffects")
@@ -19,8 +16,9 @@ sapply(libs, require, character.only = TRUE)
 args <- commandArgs(trailingOnly = TRUE)
 root <- ifelse(length(args) == 0, file.path(".."), args)
 dat_dir <- file.path(root, "data")
-fig_dir <- file.path(root, "figures")
-fig_path <- "~/Dropbox/Apps/Overleaf/Dalton Civilian EV (CH. 1)/Figures"
+dir.create(dat_dir, recursive = TRUE, showWarnings = FALSE)
+fig_path <- file.path(root, "figures")
+dir.create(fig_path, recursive = TRUE, showWarnings = FALSE)
 
 ## load datasets
 ecav <- read_csv(file.path(dat_dir, "ecav_main.csv"))
